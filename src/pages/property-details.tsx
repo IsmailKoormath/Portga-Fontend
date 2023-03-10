@@ -1,272 +1,329 @@
-import React from "react";
 import { Typography, Box, Stack } from "@pankod/refine-mui";
 import { useDelete, useGetIdentity, useShow } from "@pankod/refine-core";
 import { useParams, useNavigate } from "@pankod/refine-react-router-v6";
 import {
-  ChatBubble,
-  Delete,
-  Edit,
-  Phone,
-  Place,
-  Star,
+    ChatBubble,
+    Delete,
+    Edit,
+    Phone,
+    Place,
+    Star,
 } from "@mui/icons-material";
 
 import { CustomButton } from "components";
+import { useList } from "@pankod/refine-core/dist/hooks";
 
 function checkImage(url: any) {
-  const img = new Image();
-  img.src = url;
-  return img.width !== 0 && img.height !== 0;
+    const img = new Image();
+    img.src = url;
+    return img.width !== 0 && img.height !== 0;
 }
 
 const PropertyDetails = () => {
-  const navigate = useNavigate();
-  const { data: user } = useGetIdentity();
-  const { id } = useParams();
-  const { mutate } = useDelete();
-  const { queryResult } = useShow();
+    const navigate = useNavigate();
+    const { data: user } = useGetIdentity();
+    const { queryResult } = useShow();
+    const { mutate } = useDelete();
+    const { id } = useParams();
 
-  const { data, isLoading, isError } = queryResult;
+    const { data, isLoading, isError } = queryResult;
 
-  const PropertyDetails = data?.data ?? {};
+const currentUser=user
+console.log(currentUser);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error</div>;
-  const isCurrentUser = user.email === PropertyDetails?.creator?.email;
+    const propertyDetails = data?.data ?? {};
+console.log(propertyDetails);
 
-  const handleDeleteProperty = () => {
-    const response =""
-    //  confirm("Are you sure you want to delete this property?");
-    if (response) {
-      mutate(
-        {
-          resource: "properties",
-          id: id as string,
-        },
-        {
-          onSuccess: () => {
-            navigate("/properties");
-          },
-        }
-      );
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
-  };
-  return (
-    <Box
-      borderRadius="15px"
-      padding="20px"
-      bgcolor="#fcfcfc"
-      width="fit-content"
-    >
-      <Typography fontSize={25} fontWeight={700} color="#11142d">
-        Details
-      </Typography>
-      <Box
-        mt="20px"
-        display="flex"
-        flexDirection={{ xs: "column", lg: "row" }}
-        gap={4}
-      >
-        <Box flex={1} maxWidth={764}>
-          <img
-            src={PropertyDetails.photo}
-            alt={PropertyDetails.title}
-            height={564}
-            style={{ objectFit: "cover", borderRadius: "10px" }}
-            className="property_details-img"
-          />
-          <Box mt="15px">
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              flexWrap="wrap"
-              alignItems="center"
-            >
-              <Typography
-                fontSize={18}
-                fontWeight={500}
-                color="#11142d"
-                textTransform="capitalize"
-              >
-                {PropertyDetails.propertyType}
-              </Typography>
-              <Box>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={`star-${star}`} sx={{ color: "#f2c94c" }} />
-                ))}
-              </Box>
-            </Stack>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              flexWrap="wrap"
-              alignItems="center"
-            >
-              <Box>
-                <Typography
-                  fontSize={22}
-                  fontWeight={600}
-                  color="#11142d"
-                  textTransform="capitalize"
-                >
-                  {PropertyDetails.title}
-                </Typography>
-                <Stack mt={0.5} direction="row" alignItems="center" gap={0.5}>
-                  <Place sx={{ color: "#808191" }} />
-                  <Typography color="#11142d">
-                    {PropertyDetails.location}
-                  </Typography>
-                </Stack>
-              </Box>
-              <Box>
-                <Typography
-                  fontSize={16}
-                  fontWeight={600}
-                  mt="10px"
-                  color="#11142D"
-                >
-                  Price
-                </Typography>
-                <Stack direction="row" alignItems="flex-end" gap={1}>
-                  <Typography fontSize={25} fontWeight={700} color="#475BE8">
-                    ${PropertyDetails.price}
-                  </Typography>
-                  <Typography fontSize={14} color="#808191" mb={0.5}>
-                    for one day
-                  </Typography>
-                </Stack>
-              </Box>
-            </Stack>
 
-            <Stack mt="25px" direction="column" gap="10px">
-              <Typography fontSize={18} color="#11142D">
-                Description
-              </Typography>
-              <Typography fontSize={14} color="#808191">
-                {PropertyDetails.description}
-              </Typography>
-            </Stack>
-          </Box>
-        </Box>
+    if (isError) {
+        return <div>Something went wrong!</div>;
+    }
 
+    const isCurrentUser = user.email === currentUser?.email;
+
+    const handleDeleteProperty = () => {
+        const response = ""
+        // confirm(
+        //     "Are you sure you want to delete this property?",
+        // );
+        if (response) {
+            mutate(
+                {
+                    resource: "properties",
+                    id: id as string,
+                },
+                {
+                    onSuccess: () => {
+                        navigate("/properties");
+                    },
+                },
+            );
+        }
+    };
+
+    return (
         <Box
-          width="100%"
-          flex={1}
-          maxWidth={326}
-          display="flex"
-          flexDirection="column"
-          gap="20px"
+            borderRadius="15px"
+            padding="20px"
+            bgcolor="#FCFCFC"
+            width="fit-content"
         >
-          <Stack
-            width="100%"
-            p={2}
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            border="1px solid #E4E4E4"
-            borderRadius={2}
-          >
-            <Stack
-              mt={2}
-              justifyContent="center"
-              alignItems="center"
-              textAlign="center"
-            >
-              <img
-                src={
-                  checkImage(PropertyDetails?.creator?.avatar)
-                    ? PropertyDetails?.creator?.avatar
-                    : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
-                }
-                alt="avatar"
-                width={90}
-                height={90}
-                style={{
-                  borderRadius: "100%",
-                  objectFit: "cover",
-                }}
-              />
+            <Typography fontSize={25} fontWeight={700} color="#11142D">
+                Details
+            </Typography>
 
-              <Box mt="15px">
-                <Typography fontSize={18} fontWeight={600} color="#11142D">
-                  {PropertyDetails?.creator?.name}
-                </Typography>
-                <Typography
-                  mt="5px"
-                  fontSize={14}
-                  fontWeight={400}
-                  color="#808191"
+            <Box
+                mt="20px"
+                display="flex"
+                flexDirection={{ xs: "column", lg: "row" }}
+                gap={4}
+            >
+                <Box flex={1} maxWidth={764}>
+                    <img
+                        src={propertyDetails.photo}
+                        alt="property_details-img"
+                        height={546}
+                        style={{ objectFit: "cover", borderRadius: "10px" }}
+                        className="property_details-img"
+                    />
+
+                    <Box mt="15px">
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            flexWrap="wrap"
+                            alignItems="center"
+                        >
+                            <Typography
+                                fontSize={18}
+                                fontWeight={500}
+                                color="#11142D"
+                                textTransform="capitalize"
+                            >
+                                {propertyDetails.propertyType}
+                            </Typography>
+                            <Box>
+                                {[1, 2, 3, 4, 5].map((item) => (
+                                    <Star
+                                        key={`star-${item}`}
+                                        sx={{ color: "#F2C94C" }}
+                                    />
+                                ))}
+                            </Box>
+                        </Stack>
+
+                        <Stack
+                            direction="row"
+                            flexWrap="wrap"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            gap={2}
+                        >
+                            <Box>
+                                <Typography
+                                    fontSize={22}
+                                    fontWeight={600}
+                                    mt="10px"
+                                    color="#11142D"
+                                >
+                                    {propertyDetails.title}
+                                </Typography>
+                                <Stack
+                                    mt={0.5}
+                                    direction="row"
+                                    alignItems="center"
+                                    gap={0.5}
+                                >
+                                    <Place sx={{ color: "#808191" }} />
+                                    <Typography fontSize={14} color="#808191">
+                                        {propertyDetails.location}
+                                    </Typography>
+                                </Stack>
+                            </Box>
+
+                            <Box>
+                                <Typography
+                                    fontSize={16}
+                                    fontWeight={600}
+                                    mt="10px"
+                                    color="#11142D"
+                                >
+                                    Price
+                                </Typography>
+                                <Stack
+                                    direction="row"
+                                    alignItems="flex-end"
+                                    gap={1}
+                                >
+                                    <Typography
+                                        fontSize={25}
+                                        fontWeight={700}
+                                        color="#475BE8"
+                                    >
+                                        ${propertyDetails.price}
+                                    </Typography>
+                                    <Typography
+                                        fontSize={14}
+                                        color="#808191"
+                                        mb={0.5}
+                                    >
+                                        for one day
+                                    </Typography>
+                                </Stack>
+                            </Box>
+                        </Stack>
+
+                        <Stack mt="25px" direction="column" gap="10px">
+                            <Typography fontSize={18} color="#11142D">
+                                Description
+                            </Typography>
+                            <Typography fontSize={14} color="#808191">
+                                {propertyDetails.description}
+                            </Typography>
+                        </Stack>
+                    </Box>
+                </Box>
+
+                <Box
+                    width="100%"
+                    flex={1}
+                    maxWidth={326}
+                    display="flex"
+                    flexDirection="column"
+                    gap="20px"
                 >
-                  Agent
-                </Typography>
-              </Box>
+                    <Stack
+                        width="100%"
+                        p={2}
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        border="1px solid #E4E4E4"
+                        borderRadius={2}
+                    >
+                        <Stack
+                            mt={2}
+                            justifyContent="center"
+                            alignItems="center"
+                            textAlign="center"
+                        >
+                            <img
+                                src={
+                                    checkImage(currentUser.avatar)
+                                        ? currentUser.avatar
+                                        : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
+                                }
+                                alt="avatar"
+                                width={90}
+                                height={90}
+                                style={{
+                                    borderRadius: "100%",
+                                    objectFit: "cover",
+                                }}
+                            />
 
-              <Stack mt="15px" direction="row" alignItems="center" gap={1}>
-                <Place sx={{ color: "#808191" }} />
-                <Typography fontSize={14} fontWeight={400} color="#808191">
-                  North Carolina, USA
-                </Typography>
-              </Stack>
+                            <Box mt="15px">
+                                <Typography
+                                    fontSize={18}
+                                    fontWeight={600}
+                                    color="#11142D"
+                                >
+                                    {currentUser?.name}
+                                </Typography>
+                                <Typography
+                                    mt="5px"
+                                    fontSize={14}
+                                    fontWeight={400}
+                                    color="#808191"
+                                >
+                                    Agent
+                                </Typography>
+                            </Box>
 
-              <Typography mt={1} fontSize={16} fontWeight={600} color="#11142D">
-                {PropertyDetails?.creator?.allProperties?.length} Properties
-              </Typography>
-            </Stack>
+                            <Stack
+                                mt="15px"
+                                direction="row"
+                                alignItems="center"
+                                gap={1}
+                            >
+                                <Place sx={{ color: "#808191" }} />
+                                <Typography
+                                    fontSize={14}
+                                    fontWeight={400}
+                                    color="#808191"
+                                >
+                                    North Carolina, USA
+                                </Typography>
+                            </Stack>
 
-            <Stack
-              width="100%"
-              mt="25px"
-              direction="row"
-              flexWrap="wrap"
-              gap={2}
-            >
-              <CustomButton
-                title={!isCurrentUser ? "Message" : "Edit"}
-                backgroundColor="#475BE8"
-                color="#FCFCFC"
-                fullWidth
-                icon={!isCurrentUser ? <ChatBubble /> : <Edit />}
-                handleClick={() => {
-                  if (isCurrentUser) {
-                    navigate(`/properties/edit/${PropertyDetails._id}`);
-                  }
-                }}
-              />
-              <CustomButton
-                title={!isCurrentUser ? "Call" : "Delete"}
-                backgroundColor={!isCurrentUser ? "#2ED480" : "#d42e2e"}
-                color="#FCFCFC"
-                fullWidth
-                icon={!isCurrentUser ? <Phone /> : <Delete />}
-                handleClick={() => {
-                  if (isCurrentUser) handleDeleteProperty();
-                }}
-              />
-            </Stack>
-          </Stack>
+                            <Typography
+                                mt={1}
+                                fontSize={16}
+                                fontWeight={600}
+                                color="#11142D"
+                            >
+                                {currentUser?.allProperties?.length}{" "}
+                                Properties
+                            </Typography>
+                        </Stack>
 
-          <Stack>
-            <img
-              src="https://serpmedia.org/scigen/images/googlemaps-nyc-standard.png?crc=3787557525"
-              alt=""
-              width="100%"
-              height={306}
-              style={{ borderRadius: 10, objectFit: "cover" }}
-            />
-          </Stack>
+                        <Stack
+                            width="100%"
+                            mt="25px"
+                            direction="row"
+                            flexWrap="wrap"
+                            gap={2}
+                        >
+                            <CustomButton
+                                title={!isCurrentUser ? "Message" : "Edit"}
+                                backgroundColor="#475BE8"
+                                color="#FCFCFC"
+                                fullWidth
+                                icon={
+                                    !isCurrentUser ? <ChatBubble /> : <Edit />
+                                }
+                                handleClick={() => {
+                                    if (isCurrentUser) {
+                                        navigate(
+                                            `/properties/edit/${propertyDetails._id}`,
+                                        );
+                                    }
+                                }}
+                            />
+                            <CustomButton
+                                title={!isCurrentUser ? "Call" : "Delete"}
+                                backgroundColor={
+                                    !isCurrentUser ? "#2ED480" : "#d42e2e"
+                                }
+                                color="#FCFCFC"
+                                fullWidth
+                                icon={!isCurrentUser ? <Phone /> : <Delete />}
+                                handleClick={() => {
+                                    if (isCurrentUser) handleDeleteProperty();
+                                }}
+                            />
+                        </Stack>
+                    </Stack>
 
-          <Box>
-            <CustomButton
-              title="Book Now"
-              backgroundColor="#475BE8"
-              color="#FCFCFC"
-              fullWidth
-            />
-          </Box>
+                    <Stack>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3340566.753996778!2d-82.10459105266524!3d35.14983113248808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88541fc4fc381a81%3A0xad3f30f5e922ae19!2sNorth%20Carolina%2C%20USA!5e0!3m2!1sen!2sin!4v1678451705040!5m2!1sen!2sin" width="400" height="400" style={{border:"0"}}></iframe>
+                    </Stack>
+
+                    <Box>
+                        <CustomButton
+                            title="Book Now"
+                            backgroundColor="#475BE8"
+                            color="#FCFCFC"
+                            fullWidth
+                        />
+                    </Box>
+                </Box>
+            </Box>
         </Box>
-      </Box>
-    </Box>
-  );
+    );
 };
 
 export default PropertyDetails;

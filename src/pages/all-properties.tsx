@@ -1,4 +1,4 @@
-import { Add, InsertComment } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import { useTable } from "@pankod/refine-core";
 import {
   Box,
@@ -7,7 +7,6 @@ import {
   TextField,
   Select,
   MenuItem,
-  Link,
 } from "@pankod/refine-mui";
 import { useNavigate } from "@pankod/refine-react-router-v6";
 import { PropertyCard, CustomButton } from "components";
@@ -29,6 +28,7 @@ const AllProperties = () => {
   } = useTable();
 
   const allProperties = data?.data ?? [];
+console.log(allProperties);
 
   const currentPrice = sorter.find((item) => item.field === "price")?.order;
   const toggleSort = (field: string) => {
