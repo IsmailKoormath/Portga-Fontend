@@ -58,10 +58,14 @@ if (isError) return <Typography>Something went wrong!</Typography>;
 
       </Box>
       <Stack
-         mt='25' width='100%'
-         direction={{xs : 'column',lg:'row'}} gap={4}>
-          <TotalRevenue/>
-          <PropertyReferrals/>
+                mt="25px"
+                width="100%"
+                direction={{ xs: "column", lg: "row" }}
+                gap={4}
+            >
+                <TotalRevenue />
+                <PropertyReferrals />
+            </Stack>
           <Box
                 flex={1}
                 borderRadius="15px"
@@ -78,7 +82,7 @@ if (isError) return <Typography>Something went wrong!</Typography>;
 
                 <Box
                     mt={2.5}
-                    sx={{ display: "flex", flexWrap: "wrap", gap: 4 }}
+                    sx={{ display: "flex", flexWrap: "wrap", gap: 0 }}
                 >
                     {latestProperties.map((property) => (
                         <PropertyCard
@@ -92,7 +96,7 @@ if (isError) return <Typography>Something went wrong!</Typography>;
                     ))}
                 </Box>
             </Box>
-      </Stack>
+      
     </Box>
   );
 };
