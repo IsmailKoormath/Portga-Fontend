@@ -9,7 +9,7 @@ import {
   TopAgent,
 } from "components";
 
-const home = () => {
+const Home = () => {
   const { data, isLoading, isError } = useList({
     resource: "properties",
     config: {
@@ -97,4 +97,4 @@ if (isError) return <Typography>Something went wrong!</Typography>;
   );
 };
 
-export default home;
+export default Home;
