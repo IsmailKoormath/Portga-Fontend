@@ -176,5 +176,4 @@ function App() {
     </ColorModeContextProvider>
   );
 }
-
 export default App;

@@ -28,7 +28,7 @@ export const Header: React.FC = () => {
           alignItems="center"
         >
           {/* <IconButton
-            onClick={() => {
+            onClick={(e) => {
               setMode();
             }}
           >
