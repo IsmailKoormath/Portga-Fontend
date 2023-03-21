@@ -16,7 +16,7 @@ export const Header: React.FC = () => {
   const { mode, setMode } = useContext(ColorModeContext);
 
   const { data: user } = useGetIdentity();
-  const shouldRenderHeader = true; // since we are using the dark/light toggle; we don't need to check if user is logged in or not.
+  const shouldRenderHeader = true;
 
   return shouldRenderHeader ? (
     <AppBar color="default" position="sticky" elevation={0} sx={{background:'#fcfcfc'}}>
@@ -27,13 +27,13 @@ export const Header: React.FC = () => {
           justifyContent="flex-end"
           alignItems="center"
         >
-          {/* <IconButton
+          <IconButton
             onClick={(e) => {
               setMode();
             }}
           >
             {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
-          </IconButton> */}
+          </IconButton>
           <Stack
             direction="row"
             gap="16px"

@@ -9,9 +9,7 @@ import {
     Place,
     Star,
 } from "@mui/icons-material";
-
 import { CustomButton } from "components";
-import { useList } from "@pankod/refine-core/dist/hooks";
 
 function checkImage(url: any) {
     const img = new Image();
