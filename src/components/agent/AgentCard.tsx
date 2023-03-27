@@ -113,5 +113,4 @@ const AgentCard = ({
         </Box>
     );
 };
-
 export default AgentCard;
