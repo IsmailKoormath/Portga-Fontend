@@ -20,6 +20,9 @@ const CreateProperty = () => {
     reader(file).then((result: string) => setPropertyImage({ name: file?.name, url: result }));
   };
   const onFinishHandler=async(data: FieldValues)=>{
+
+
+    
     if(!propertyImage.name) return alert('Please select an image')
     await onFinish({...data ,photo: propertyImage.url,email: user.email})
   }

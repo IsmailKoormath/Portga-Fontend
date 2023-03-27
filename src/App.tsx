@@ -11,7 +11,6 @@ import {
 } from "@pankod/refine-mui";
 import {AccountCircleOutlined,PeopleAltOutlined,StarOutlineRounded,VillaOutlined} from '@mui/icons-material'
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-
 import dataProvider from "@pankod/refine-simple-rest";
 import { MuiInferencer } from "@pankod/refine-inferencer/mui";
 import routerProvider from "@pankod/refine-react-router-v6";
