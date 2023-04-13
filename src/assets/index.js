@@ -1,7 +1,7 @@
 import logo from './logo.svg';
-import yariga from './yariga.svg';
+import portga from './portga.png';
 
 export {
   logo,
-  yariga,
+  portga,
 };
