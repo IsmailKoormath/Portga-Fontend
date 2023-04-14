@@ -55,7 +55,7 @@ function App() {
 
       if(profileObj){
         const response = await fetch('https://portga-fontend.vercel.app/api/v1/users',{
-          method:'POST',
+          method:'post',
           headers:{ 'Content-Type':'application/json'},
           body:JSON.stringify({
             name:profileObj.name,
